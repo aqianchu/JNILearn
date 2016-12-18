@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Used to load the 'native-lib' library on application startup.
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv.setText(stringFromJNI());
         findViewById(R.id.getperson).setOnClickListener(this);
         findViewById(R.id.getarrayperson).setOnClickListener(this);
+        findViewById(R.id.getpersons_ages).setOnClickListener(this);
+        findViewById(R.id.getpersons_list).setOnClickListener(this);
     }
 
     /**
@@ -49,6 +53,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     sb.append("name:"+p1.getName()+" age:"+p1.getAge()+"\n");
                 }
                 tv.setText(sb.toString());
+                break;
+            case R.id.getpersons_ages:
+                Person[] persons = MyJNI.getPersonArray();
+                int total = MyJNI.totalAge(persons);
+                tv.setText("totalAge:"+total);
+                break;
+            case R.id.getpersons_list:
+                List<Person>personList = MyJNI.getArrayListPerson();
+                StringBuilder sb1 = new StringBuilder();
+                for (Person p11:personList){
+                    sb1.append("name:"+p11.getName()+" age:"+p11.getAge()+"\n");
+                }
+                tv.setText(sb1.toString());
                 break;
         }
     }
